@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS Orders (
     TotalFee INTEGER NOT NULL,
     OrderStatus VARCHAR(255) NOT NULL,
     ProcessedBy INTEGER NOT NULL,
-    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
 );
 
 CREATE TABLE IF NOT EXISTS OrderItems (
@@ -60,5 +60,6 @@ CREATE TABLE IF NOT EXISTS Wishlists (
     GameID INTEGER NOT NULL,
     AddedDate TIMESTAMP NOT NULL,
     FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
-    FOREIGN KEY (GameID) REFERENCES Game(GameID)
+    FOREIGN KEY (GameID) REFERENCES Game(GameID),
+    CONSTRAINT unique_wishlist UNIQUE (CustomerID, GameID)
 );
