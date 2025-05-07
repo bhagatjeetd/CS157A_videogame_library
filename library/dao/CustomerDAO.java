@@ -39,7 +39,7 @@ public class CustomerDAO {
             // Retrieve generated CustomerID
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    c.setCustomerId(rs.getInt(1));
+                    c.setId(rs.getInt(1));
                 }
             }
         }
@@ -92,7 +92,7 @@ public class CustomerDAO {
             ps.setString(5, c.getUsername());
             ps.setString(6, c.getPasswordHash());
             ps.setTimestamp(7, new Timestamp(c.getRegistrationDate().getTime()));
-            ps.setInt(8, c.getCustomerId());
+            ps.setInt(8, c.getId());
             ps.executeUpdate();
         }
     }

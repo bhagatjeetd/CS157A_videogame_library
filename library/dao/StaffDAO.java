@@ -38,7 +38,7 @@ public class StaffDAO {
             // Retrieve generated StaffID
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    s.setStaffId(rs.getInt(1));
+                    s.setId(rs.getInt(1));
                 }
             }
         }
@@ -89,7 +89,7 @@ public class StaffDAO {
             ps.setString(4, s.getUsername());
             ps.setString(5, s.getPasswordHash());
             ps.setTimestamp(6, new Timestamp(s.getHireDate().getTime()));
-            ps.setInt(7, s.getStaffId());
+            ps.setInt(7, s.getId());
             ps.executeUpdate();
         }
     }
