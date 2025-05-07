@@ -141,4 +141,16 @@ public class GameDAO {
             ps.executeUpdate();
         }
     }
+    // Utility method to get next GameID (for JSP/servlet)
+    public int getNextGameId() throws SQLException {
+        String sql = "SELECT MAX(GameID) AS MaxID FROM Games";
+        try (Statement st = conn.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            if (rs.next()) {
+                return rs.getInt("MaxID") + 1;
+            } else {
+                return 1; // start from 1 if table is empty
+            }
+        }
+    }
 }
