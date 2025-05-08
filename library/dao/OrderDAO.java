@@ -76,4 +76,55 @@ public class OrderDAO {
             ps.executeUpdate();
         }
     }
+    // added following 4 below for reports that would be avaiable from admin view
+
+    //Returns all rental orders that are still active
+    public List<Order> getCurrentRentals() throws SQLException {
+        List<Order> list = new ArrayList<>();
+        String sql = "SELECT * FROM Orders WHERE OrderStatus = 'Active'";
+        try (Statement st = conn.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                list.add(parseOrder(rs));
+            }
+        }
+        return list;
+    }
+
+    //Returns orders that are overdue
+    public List<Order> getOverdueRentals() throws SQLException {
+        List<Order> list = new ArrayList<>();
+        String sql = "SELECT * FROM Orders WHERE OrderStatus = 'Active' AND DueDate < NOW()";
+        try (Statement st = conn.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                list.add(parseOrder(rs));
+            }
+        }
+        return list;
+    }
+    //Calculates the total revenue from returned orders and sums TotalFee
+    public double getTotalRevenue() throws SQLException {
+        String sql = "SELECT SUM(TotalFee) AS Revenue FROM Orders WHERE OrderStatus = 'Returned'";
+        try (Statement st = conn.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            if (rs.next()) {
+                return rs.getDouble("Revenue");
+            }
+        }
+        return 0.0;
+    }
+    //Util method to construct an Order object from a ResultSet (avoids dupes)
+    private Order parseOrder(ResultSet rs) throws SQLException {
+        return new Order(
+            rs.getInt("OrderID"),
+            rs.getInt("CustomerID"),
+            rs.getTimestamp("OrderDate"),
+            rs.getTimestamp("DueDate"),
+            rs.getTimestamp("ReturnDate"),
+            rs.getDouble("TotalFee"),
+            rs.getString("OrderStatus"),
+            rs.getInt("ProcessedBy")
+        );
+    }
 }
