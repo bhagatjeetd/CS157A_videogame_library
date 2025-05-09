@@ -127,4 +127,51 @@ public class OrderDAO {
             rs.getInt("ProcessedBy")
         );
     }
+
+    public int createOrder(int customerId, Date orderDate, Date dueDate, double fee) throws SQLException {
+        String sql = "INSERT INTO Orders (CustomerID, OrderDate, DueDate, TotalFee, OrderStatus) VALUES (?, ?, ?, ?, 'Active')";
+        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, customerId);
+            ps.setTimestamp(2, new Timestamp(orderDate.getTime()));
+            ps.setTimestamp(3, new Timestamp(dueDate.getTime()));
+            ps.setDouble(4, fee);
+            ps.executeUpdate();
+
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) return rs.getInt(1);
+            }
+        }
+        return -1;
+    }
+
+    public void returnOrder(int orderId) throws SQLException {
+        String sql = "UPDATE Orders SET ReturnDate = NOW(), OrderStatus = 'Returned' WHERE OrderID = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            ps.executeUpdate();
+        }
+    }
+
+    public List<Order> getOrdersByCustomer(int customerId) throws SQLException {
+        List<Order> orders = new ArrayList<>();
+        String sql = "SELECT * FROM Orders WHERE CustomerID = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, customerId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    orders.add(new Order(
+                            rs.getInt("OrderID"),
+                            rs.getInt("CustomerID"),
+                            rs.getTimestamp("OrderDate"),
+                            rs.getTimestamp("DueDate"),
+                            rs.getTimestamp("ReturnDate"),
+                            rs.getDouble("TotalFee"),
+                            rs.getString("OrderStatus"),
+                            rs.getInt("ProcessedBy")
+                    ));
+                }
+            }
+        }
+        return orders;
+    }
 }
