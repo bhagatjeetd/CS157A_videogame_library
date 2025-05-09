@@ -1,6 +1,6 @@
 package library.servlet;
 
-import library.dao.UserDAO; // you’ll need to write this
+import library.dao.UserDAO;
 import library.model.Customer;
 
 import jakarta.servlet.*;
