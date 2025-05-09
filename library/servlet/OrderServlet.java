@@ -1,11 +1,11 @@
 package library.servlet;
 
-import dao.OrderDAO;
-import dao.OrderItemDAO;
-import dao.GameDAO;
-import model.Customer;
-import model.Game;
-import model.Order;
+import library.dao.OrderDAO;
+import library.dao.OrderItemDAO;
+import library.dao.GameDAO;
+import library.model.Customer;
+import library.model.Game;
+import library.model.Order;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
