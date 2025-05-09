@@ -64,4 +64,34 @@ public class WishlistDAO {
             ps.executeUpdate();
         }
     }
+
+    public List<Integer> getWishlistGameIds(int customerId) throws SQLException {
+        List<Integer> ids = new ArrayList<>();
+        String sql = "SELECT GameID FROM Wishlists WHERE CustomerID = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, customerId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) ids.add(rs.getInt("GameID"));
+            }
+        }
+        return ids;
+    }
+
+    public void addToWishlist(int customerId, int gameId) throws SQLException {
+        String sql = "INSERT INTO Wishlists (CustomerID, GameID, AddedDate) VALUES (?, ?, NOW())";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, customerId);
+            ps.setInt(2, gameId);
+            ps.executeUpdate();
+        }
+    }
+
+    public void removeFromWishlist(int customerId, int gameId) throws SQLException {
+        String sql = "DELETE FROM Wishlists WHERE CustomerID = ? AND GameID = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, customerId);
+            ps.setInt(2, gameId);
+            ps.executeUpdate();
+        }
+    }
 }
