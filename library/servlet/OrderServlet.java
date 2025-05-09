@@ -1,4 +1,4 @@
-package servlet;
+package library.servlet;
 
 import dao.OrderDAO;
 import dao.OrderItemDAO;
