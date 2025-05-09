@@ -153,4 +153,25 @@ public class GameDAO {
             }
         }
     }
+    //method for getting game by ID
+    public Game getGameById(int id) throws SQLException {
+        String sql = "SELECT * FROM Games WHERE GameID = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Game(
+                        rs.getInt("GameID"),
+                        rs.getString("Title"),
+                        rs.getString("Genre"),
+                        rs.getString("ESRB"),
+                        rs.getDate("ReleaseDate"),
+                        rs.getString("Publisher"),
+                        rs.getDouble("BaseRentalPrice")
+                    );
+                }
+            }
+        }
+        return null;
+    }
 }
