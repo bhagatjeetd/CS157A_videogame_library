@@ -60,7 +60,9 @@ public class AuthServlet extends HttpServlet {
                 String hash = hashPassword(password);
 
                 if ("customer".equals(role)) {
-                    userDAO.registerCustomer(name, email, username, hash);
+                    String phone = request.getParameter("phone");
+                    String address = request.getParameter("address");
+                    userDAO.registerCustomer(name, email, phone, address, username, hash);
                 } else {
                     userDAO.registerStaff(name, email, username, hash);
                 }
