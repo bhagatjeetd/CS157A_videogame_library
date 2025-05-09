@@ -51,6 +51,28 @@ public class UserDAO {
         }
     }
 
+    public void registerStaff(
+        String name,
+        String email,
+        String username,
+        String passwordHash
+    ) throws SQLException {
+        String sql = """
+            INSERT INTO Staff
+              (Name, Email, Role, Username, PasswordHash, HireDate)
+            VALUES
+              (?, ?, 'Employee', ?, ?, NOW())
+            """;
+        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, name);
+            ps.setString(2, email);
+            ps.setString(3, username);
+            ps.setString(4, passwordHash);
+            ps.executeUpdate();
+        }
+    }
+
+
     /**
      * loginCustomer
      * Attempts to authenticate a customer.
