@@ -1,7 +1,7 @@
 package library.servlet;
 
-import dao.OrderDAO;
-import model.Order;
+import library.dao.OrderDAO;
+import library.model.Order;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
