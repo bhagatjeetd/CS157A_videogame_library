@@ -29,16 +29,26 @@ public class AuthServlet extends HttpServlet {
                 String password = request.getParameter("password");
                 String hash = hashPassword(password);
 
-                Object user = userDAO.login(username, hash);
-                if (user != null) {
+                Customer customer = userDAO.loginCustomer(username, hash);
+                if (customer != null) {
                     HttpSession session = request.getSession();
-                    session.setAttribute("user", user);
-                    session.setAttribute("role", (user instanceof Customer) ? "customer" : "staff");
+                    session.setAttribute("user", customer);
+                    session.setAttribute("role", "customer");
                     response.sendRedirect("index.jsp");
-                } else {
-                    request.setAttribute("error", "Invalid credentials");
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                    return;
                 }
+
+                Staff staff = userDAO.loginStaff(username, hash);
+                if (staff != null) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", staff);
+                    session.setAttribute("role", "staff");
+                    response.sendRedirect("index.jsp");
+                    return;
+                }
+                //if login fails
+                request.setAttribute("error", "Invalid credentials");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
 
             } else if ("register".equals(action)) {
                 // Simplified registration logic
