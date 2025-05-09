@@ -64,4 +64,14 @@ public class OrderItemDAO {
             ps.executeUpdate();
         }
     }
+
+    public void addItem(int orderId, int gameId, double fee) throws SQLException {
+        String sql = "INSERT INTO OrderItems (OrderID, GameID, RentalFee) VALUES (?, ?, ?)";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            ps.setInt(2, gameId);
+            ps.setDouble(3, fee);
+            ps.executeUpdate();
+        }
+    }
 }
