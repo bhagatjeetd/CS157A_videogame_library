@@ -1,4 +1,3 @@
-CREATE DATABASE IF NOT EXISTS gamelibrary_db;
 USE gamelibrary_db;
 
 -- Video game titles
