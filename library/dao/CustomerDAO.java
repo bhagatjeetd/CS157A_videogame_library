@@ -60,7 +60,7 @@ public class CustomerDAO {
             while (rs.next()) {
                 list.add(new Customer(
                         rs.getInt("CustomerID"),
-                        rs.getString("Name"),
+                        rs.getString("CustomerName"),
                         rs.getString("Email"),
                         rs.getString("Phone"),
                         rs.getString("Address"),
