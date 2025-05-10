@@ -19,7 +19,7 @@ public class PlatformDAO {
      * Inserts a new Platform record.
      */
     public void addPlatform(Platform p) throws SQLException {
-        String sql = "INSERT INTO Platforms (PlatformID, Name) VALUES (?, ?)";
+        String sql = "INSERT INTO Platforms (PlatformID, PlatformName) VALUES (?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, p.getPlatformId());
             ps.setString(2, p.getName());
@@ -38,7 +38,7 @@ public class PlatformDAO {
             while (rs.next()) {
                 list.add(new Platform(
                         rs.getInt("PlatformID"),
-                        rs.getString("Name")
+                        rs.getString("PlatformName")
                 ));
             }
         }
@@ -49,7 +49,7 @@ public class PlatformDAO {
      * Updates an existing platform.
      */
     public void updatePlatform(Platform p) throws SQLException {
-        String sql = "UPDATE Platforms SET Name = ? WHERE PlatformID = ?";
+        String sql = "UPDATE Platforms SET PlatformName = ? WHERE PlatformID = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, p.getName());
             ps.setInt(2, p.getPlatformId());
