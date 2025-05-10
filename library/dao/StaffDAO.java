@@ -59,7 +59,7 @@ public class StaffDAO {
             while (rs.next()) {
                 list.add(new Staff(
                         rs.getInt("StaffID"),
-                        rs.getString("Name"),
+                        rs.getString("StaffName"),
                         rs.getString("Email"),
                         rs.getString("Role"),
                         rs.getString("Username"),
